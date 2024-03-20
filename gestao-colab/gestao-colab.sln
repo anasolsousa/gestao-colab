@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gestao-colab", "gestao-colab.csproj", "{698DA5B9-C0E3-4A82-9258-13CB393EDD20}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{698DA5B9-C0E3-4A82-9258-13CB393EDD20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{698DA5B9-C0E3-4A82-9258-13CB393EDD20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{698DA5B9-C0E3-4A82-9258-13CB393EDD20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{698DA5B9-C0E3-4A82-9258-13CB393EDD20}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2F0A8070-1058-46A8-8AC4-AB95C9DA25EC}
+	EndGlobalSection
+EndGlobal
