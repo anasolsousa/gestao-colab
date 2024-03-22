@@ -70,6 +70,7 @@ namespace gestaoColab
                 {
                     // 1. Inserir colaborador
                     case 1:
+                        Console.WriteLine("Hello world");
                     break;
 
                     // 2. Listagem de registos de colaboradores
