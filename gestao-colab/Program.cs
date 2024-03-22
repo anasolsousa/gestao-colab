@@ -23,29 +23,29 @@ namespace gestaoColab
             string nomColab = "";
             double vencColab;
             double plafondAlimColab;
-            bool segSaudeColab = true;
+            int segSaudeColab;
 
             // get saida de dados, ou seja, getVariavel = vai conter os valores das variavies inicializadas em cima
             public int getCodigo() { return codColab; }
             public string getNome() { return nomColab; }
             public double getVenc() { return vencColab; }
             public double getPlafond() { return plafondAlimColab; }
-            public bool getSeguro() { return segSaudeColab; }
+            public int getSeguro() { return segSaudeColab; }
 
             // set entrada de dados, todos os dados guardado na variavel newVariavel vão ser "transferidos" de volta para a variavel inicializada em cima 
             public void setCodigo(int newCodigo) { codColab = newCodigo; }
             public void setNome(string newNome) { nomColab = newNome; }
             public void setVenc(double newVenc) { vencColab = newVenc; }
             public void setPlafond(double newPlafond) { plafondAlimColab = newPlafond; }
-            public void setSeguro(bool newSeguro) { segSaudeColab = newSeguro; }
+            public void setSeguro(int  newSeguro) { segSaudeColab = newSeguro; }
 
 
             // construtores
 
             // construtor padrão - para garantir que todos objetos sejam criados com valores padrão.
-            public Colaborador() 
-            { 
-
+            public Colaborador(double plafondAlimColab) 
+            {
+                plafondAlimColab = 140;
             }
             // quando uma pessoa é criada estes dados são preenchidos por garantia
             public Colaborador(string newNome, int newCodigo)
@@ -54,28 +54,11 @@ namespace gestaoColab
                 codColab = newCodigo;
             }
             // cada vez que é criado uma pessoa o plafom é de 140 euros
-            public Colaborador(double newPlafond)
+            public Colaborador()
             {
-                plafondAlimColab = 140;
+                
             }
-
-            // metodo para seguro de saude
-            public bool seguroSaude(int seguroSaude)
-            {
-                bool sucesso = false;
-
-                if (seguroSaude > 0)
-                {
-                    sucesso = true;
-                }
-           
-                return sucesso;
-            }
-
         }
-
-
-
 
         // COISAS A FAZER
         // * quando abrir o programa ele vai buscar os dados - fazer com um metodo
@@ -104,7 +87,7 @@ namespace gestaoColab
 
             Console.WriteLine("0. Sair");
 
-            Console.Write("Opção: ");
+            Console.Write("\nOpção: ");
             // retorna o valor que o utizador selecionou e  transformar a opcao em um numero inteiro 
             return opcao = Convert.ToInt32(Console.ReadLine());
         }
@@ -139,31 +122,43 @@ namespace gestaoColab
 
                         // o plafondAlimColab - ja esta predefinido com 140 quando é criado uma pessoa
 
-                        Console.WriteLine("O Colaborador tem direito a Seguro de Saúde?");
+                        Console.WriteLine("\nVai ser atribuido um Seguro de Saúde ao colaborador?");
 
-                        Console.WriteLine("0. Não vai ter seguro");
-                        Console.WriteLine("1. Sim, vai ter seguro");
-                        
+                        Console.WriteLine("1. Sim ");
+                        Console.WriteLine("2. Não ");
 
-                        Console.Write("Opção: ");
+                        Console.Write("\nOpção: ");
 
-                        int seguroSaude = Convert.ToInt32(Console.ReadLine());
-                        if (seguroSaude > 0 && seguroSaude < 3)
-                            if (pessoa[pessoa.Length - 1].seguroSaude(seguroSaude) == true)
-                                Console.WriteLine("tem seguro");
-                            else Console.WriteLine("nao tem seguro");
-                        else Console.WriteLine("Escolha uma das opçoes a cima");
+                        // nao funciona
+                        pessoa[pessoa.Length - 1].setSeguro(Convert.ToInt32(Console.ReadLine()));
+
+                        int resposta = 0;
+
+                        if(resposta == 1)
+                            {
+                             Console.WriteLine("Colaborador C/ Seguro de Saude");
+
+                            } else Console.WriteLine("Colaborador S/ Seguro de Saude");
                         break;
                         
                     // 2. Listagem de registos de colaboradores
                     case 2:
                         Console.WriteLine("\nLista dos Colaboradores: \n");
 
-                        for (i = 0; i < pessoa.Length; i++)
+                        /*for (i = 0; i < pessoa.Length; i++)
                         {
                             // corrigir o plafon e o true
-                            Console.WriteLine($"Código:{pessoa[i].getCodigo()} " + $"Nome:{pessoa[i].getNome()} " + $"Vencimento: {pessoa[i].getVenc()} " + $"Plafond cartao de alimentação:{pessoa[i].getPlafond()} " + $"Seguro de Saude:{pessoa[i].getSeguro()} ");
-                        }
+                            
+                            Console.WriteLine($"\nCódigo: {pessoa[i].getCodigo()} " + $"\nNome: {pessoa[i].getNome()} " + $"\nVencimento: {pessoa[i].getVenc()} € " + $"\nPlafond cartao de alimentação: {pessoa[i].getPlafond()} €");
+                            
+                            if (pessoa[i].getSeguro() == true)
+                            {
+                                Console.WriteLine("Colaborador C/ Seguro de Saude");
+                            }
+                            else Console.WriteLine("Colaborador S/ Seguro de Saude");
+
+                        }*/
+
                     break;
 
                     // 3. Consultar o registo de um colaborador
