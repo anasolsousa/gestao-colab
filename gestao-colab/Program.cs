@@ -23,7 +23,7 @@ namespace gestaoColab
             string nomColab = "";
             double vencColab;
             double plafondAlimColab;
-            bool segSaudeColab;
+            bool segSaudeColab = true;
 
             // get saida de dados, ou seja, getVariavel = vai conter os valores das variavies inicializadas em cima
             public int getCodigo() { return codColab; }
@@ -59,6 +59,19 @@ namespace gestaoColab
                 plafondAlimColab = 140;
             }
 
+            // metodo para seguro de saude
+            public bool seguroSaude(int seguroSaude)
+            {
+                bool sucesso = false;
+
+                if (seguroSaude > 0)
+                {
+                    sucesso = true;
+                }
+           
+                return sucesso;
+            }
+
         }
 
 
@@ -74,7 +87,7 @@ namespace gestaoColab
 
             int opcao = 0;
 
-            Console.WriteLine("Menu com opções: ");
+            Console.WriteLine("\nMenu com opções: \n");
             Console.WriteLine("1. Inserir colaborador");
             Console.WriteLine("2. Listagem de registos de colaboradores");
             Console.WriteLine("3. Consultar o registo de um colaborador");
@@ -87,15 +100,13 @@ namespace gestaoColab
             Console.WriteLine("10. Calcular a média dos vencimentos dos colaboradores");
             Console.WriteLine("11. O nome d@ colaborador@ com o melhor vencimento");
             Console.WriteLine("12. O nome d@ colaborador@ com o menor vencimento");
-            Console.WriteLine("13. Listagem dos inscritos no Seguro de Saúde");
+            Console.WriteLine("13. Listagem dos inscritos no Seguro de Saúde\n");
 
             Console.WriteLine("0. Sair");
 
-            // transformar a opcao em um numero inteiro 
-            opcao = Convert.ToInt32(Console.Read());
-
-            // retorna o valor que o utizador selecionou
-            return opcao;
+            Console.Write("Opção: ");
+            // retorna o valor que o utizador selecionou e  transformar a opcao em um numero inteiro 
+            return opcao = Convert.ToInt32(Console.ReadLine());
         }
 
         static void Main(string[] args)
@@ -103,6 +114,7 @@ namespace gestaoColab
             // classe colaborador - criar varios objetos chamdados "pessoa" = criar varios colaboradores
             Colaborador[] pessoa = new Colaborador[0];
             int op = 0;
+            int i;
 
             // ciclo para repetir as opcoes 
             do{
@@ -114,26 +126,44 @@ namespace gestaoColab
                         Array.Resize(ref pessoa, pessoa.Length + 1); // redimenciona o array - mostra a possição 1 
                         pessoa[pessoa.Length - 1] = new Colaborador(); // array começa na posição 0 
 
-                        Console.WriteLine("\nInserir novo Colaborador. ");
+                        Console.WriteLine("\nInserir novo Colaborador: \n");
 
-                        Console.WriteLine("Insira o numero do Colaborador");
+                        Console.Write("Insira o numero do Colaborador: ");
                         pessoa[pessoa.Length - 1].setCodigo(Convert.ToInt32(Console.ReadLine())); // O array criado com o parametro codigo
 
-                        Console.Write("Insira o nome do Colaborador:");
+                        Console.Write("Insira o nome do Colaborador: ");
                         pessoa[pessoa.Length - 1].setNome(Console.ReadLine());
 
-                        Console.WriteLine("Insira o Vencimento do Colaborador");
+                        Console.Write("Insira o Vencimento do Colaborador: ");
                         pessoa[pessoa.Length -1].setVenc(Convert.ToDouble(Console.ReadLine()));
 
                         // o plafondAlimColab - ja esta predefinido com 140 quando é criado uma pessoa
 
-                        Console.WriteLine("O Colaborador tem Seguro de Saúde? ");
+                        Console.WriteLine("O Colaborador tem direito a Seguro de Saúde?");
+
+                        Console.WriteLine("0. Não vai ter seguro");
+                        Console.WriteLine("1. Sim, vai ter seguro");
                         
-                          
-                    break;
+
+                        Console.Write("Opção: ");
+
+                        int seguroSaude = Convert.ToInt32(Console.ReadLine());
+                        if (seguroSaude > 0 && seguroSaude < 3)
+                            if (pessoa[pessoa.Length - 1].seguroSaude(seguroSaude) == true)
+                                Console.WriteLine("tem seguro");
+                            else Console.WriteLine("nao tem seguro");
+                        else Console.WriteLine("Escolha uma das opçoes a cima");
+                        break;
                         
                     // 2. Listagem de registos de colaboradores
                     case 2:
+                        Console.WriteLine("\nLista dos Colaboradores: \n");
+
+                        for (i = 0; i < pessoa.Length; i++)
+                        {
+                            // corrigir o plafon e o true
+                            Console.WriteLine($"Código:{pessoa[i].getCodigo()} " + $"Nome:{pessoa[i].getNome()} " + $"Vencimento: {pessoa[i].getVenc()} " + $"Plafond cartao de alimentação:{pessoa[i].getPlafond()} " + $"Seguro de Saude:{pessoa[i].getSeguro()} ");
+                        }
                     break;
 
                     // 3. Consultar o registo de um colaborador
