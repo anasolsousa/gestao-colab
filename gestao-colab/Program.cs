@@ -4,6 +4,8 @@ using System.Text.Unicode;
 using System.IO;
 using System.Globalization;
 using System.Net;
+using System.Reflection.Metadata.Ecma335;
+using System.ComponentModel.Design;
 
 
 namespace gestaoColab
@@ -22,9 +24,47 @@ namespace gestaoColab
             double vencColab;
             double plafondAlimColab;
             bool segSaudeColab;
+
+            // get saida de dados, ou seja, getVariavel = vai conter os valores das variavies inicializadas em cima
+            public int getCodigo() { return codColab; }
+            public string getNome() { return nomColab; }
+            public double getVenc() { return vencColab; }
+            public double getPlafond() { return plafondAlimColab; }
+            public bool getSeguro() { return segSaudeColab; }
+
+            // set entrada de dados, todos os dados guardado na variavel newVariavel vão ser "transferidos" de volta para a variavel inicializada em cima 
+            public void setCodigo(int newCodigo) { codColab = newCodigo; }
+            public void setNome(string newNome) { nomColab = newNome; }
+            public void setPlafond(double newPlafond) { plafondAlimColab = newPlafond; }
+            public void setSeguro(bool newSeguro) { segSaudeColab = newSeguro; }
+
+
+            // construtores
+
+            // construtor padrão - para garantir que todos objetos sejam criados com valores padrão.
+            public Colaborador() 
+            { 
+
+            }
+            // quando uma pessoa é criada estes dados são preenchidos por garantia
+            public Colaborador(string newNome, int newCodigo)
+            {
+                nomColab = newNome;
+                codColab = newCodigo;
+            }
+            // cada vez que é criado uma pessoa o plafom é de 140 euros
+            public Colaborador(double newPlafond)
+            {
+                plafondAlimColab = 140;
+            }
+
         }
+
+
+
+
         // COISAS A FAZER
-        // * quando abrir o programa ele vai buscar os dados 
+        // * quando abrir o programa ele vai buscar os dados - fazer com um metodo
         // * quando fechar o programa tem que emnviar os dados
         // * o plafom de alimentação todos os messes é carregado com 140 euros
 
@@ -59,7 +99,7 @@ namespace gestaoColab
 
         static void Main(string[] args)
         {
-            // classe colaborador - criar varios objetos chamdados "pessoa"
+            // classe colaborador - criar varios objetos chamdados "pessoa" = criar varios colaboradores
             Colaborador[] pessoa = new Colaborador[0];
             int op = 0;
 
@@ -70,9 +110,27 @@ namespace gestaoColab
                 {
                     // 1. Inserir colaborador
                     case 1:
-                        Console.WriteLine("Hello world");
-                    break;
+                        Array.Resize(ref pessoa, pessoa.Length + 1); // redimenciona o array - mostra a possição 1 
+                        pessoa[pessoa.Length - 1] = new Colaborador(); // array começa na posição 0 
 
+                        Console.WriteLine("\nInserir novo Colaborador. ");
+
+                        Console.WriteLine("Insira o numero do Colaborador");
+                        pessoa[pessoa.Length - 1].setCodigo(Convert.ToInt32(Console.ReadLine())); // O array criado com o parametro codigo
+
+                        Console.Write("Insira o nome do Colaborador:");
+                        pessoa[pessoa.Length - 1].setNome(Console.ReadLine());
+
+                        Console.WriteLine("Insira o Vencimento do Colaborador");
+                        pessoa[pessoa.Length -1].setVenc(Convert.ToDouble(Console.ReadLine()));
+
+                        // o plafondAlimColab - ja esta predefinido com 140 quando é criado uma pessoa
+
+                        Console.WriteLine("O Colaborador tem Seguro de Saúde? ");
+                        
+                          
+                    break;
+                        
                     // 2. Listagem de registos de colaboradores
                     case 2:
                     break;
