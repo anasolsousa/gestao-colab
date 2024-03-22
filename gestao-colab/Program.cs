@@ -35,6 +35,7 @@ namespace gestaoColab
             // set entrada de dados, todos os dados guardado na variavel newVariavel vão ser "transferidos" de volta para a variavel inicializada em cima 
             public void setCodigo(int newCodigo) { codColab = newCodigo; }
             public void setNome(string newNome) { nomColab = newNome; }
+            public void setVenc(double newVenc) { vencColab = newVenc; }
             public void setPlafond(double newPlafond) { plafondAlimColab = newPlafond; }
             public void setSeguro(bool newSeguro) { segSaudeColab = newSeguro; }
 
