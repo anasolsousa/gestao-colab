@@ -45,6 +45,8 @@ namespace gestaoColab
                 return plafondAlimColab;
             }
 
+
+
             // construtores
             public Colaborador()
             {
@@ -91,12 +93,32 @@ namespace gestaoColab
             return opcao1 = Convert.ToInt32(Console.ReadLine());
         }
 
+        public static int menualt()
+        {
+
+            int opcao2 = 0;
+
+            Console.WriteLine("\nMenu com opções: \n");
+            Console.WriteLine("1. Altrar o Código do colaborador");
+            Console.WriteLine("2. Altrar o Nome do colaborador");
+            Console.WriteLine("3. Altrar o Vencimento do colaborador");
+            Console.WriteLine("4. Altrar o Plafond do Cartão de Alimentação do colaborador");
+            Console.WriteLine("5. Altrar o Seguro de Saúde do colaborador");
+            
+            Console.WriteLine("0. Sair");
+
+            Console.Write("\nOpção: ");
+            return opcao2 = Convert.ToInt32(Console.ReadLine());
+        }
+
         static void Main(string[] args)
         {
             // classe colaborador - criar varios objetos chamdados "pessoa" = criar varios colaboradores
             Colaborador[] pessoa = new Colaborador[0];
             int op = 0;
             int i;
+            int alterar;
+            int opcao2= 0;
 
             // ciclo para repetir as opcoes 
             do
@@ -108,7 +130,7 @@ namespace gestaoColab
                 {
                     // 1. Inserir colaborador
                     case 1:
-                      
+
                         Array.Resize(ref pessoa, pessoa.Length + 1); // redimenciona o array - mostra a possição 1 
                         pessoa[pessoa.Length - 1] = new Colaborador(); // array começa na posição 0 
 
@@ -150,7 +172,7 @@ namespace gestaoColab
                             }
                         } else Console.WriteLine("Escolha uma das opções mencionadas a cima! ");
                         break;
-                        
+
                     // 2. Listagem de registos de colaboradores {}
                     case 2:
                         Console.WriteLine("\nLista dos Colaboradores: \n");
@@ -168,10 +190,11 @@ namespace gestaoColab
                     // 3. Consultar o registo de um colaborador
                     case 3:
 
-                        Console.WriteLine("Consultar o registo de um colaborador");
+                        Console.WriteLine("\nConsultar o registo de um colaborador: \n");
 
-                        Console.WriteLine("Insira o codigo do Colaborador: ");
-                        int pesquisa = Convert.ToInt32(Console.Read());
+                        Console.WriteLine("\nInsira o codigo do Colaborador: ");
+                        Console.Write("\nOpção: ");
+                        int pesquisa = Convert.ToInt32(Console.ReadLine());
 
                         for (i = 0; i < pessoa.Length; i++)
                         {
@@ -184,11 +207,151 @@ namespace gestaoColab
                                              $"\nSeguro: {pessoa[i].getSeguro()}\n");
                             }
                         }
-                    break;
-                    
+                        break;
+
                     // 4. Alterar dados de colaboradores
                     case 4:
+
+                        Console.WriteLine("\nAlterar dados de colaboradores: ");
+
+                        do
+                        {
+                            opcao2 = menualt();
+                            switch (opcao2)
+                            {
+                                case 1:
+
+                                    Console.WriteLine("\nQual é o codigo do Colaborador que deseja alterar?");
+                                    Console.Write("Codigo do Colaborador: ");
+                                    int altCodigo = Convert.ToInt32(Console.ReadLine());
+
+                                    for (i = 0; i < pessoa.Length; i++)
+                                    {
+                                            if (altCodigo > 0)
+                                            {
+                                            // alterar codigo colaborador
+                                            Console.Write("\nAlterar o Codigo: ");
+                                            altCodigo = Convert.ToInt32(Console.ReadLine());
+
+                                            if (altCodigo != pessoa[i].getCodigo())
+                                            {
+                                                pessoa[i].setCodigo(altCodigo);
+                                            }
+                                            else Console.WriteLine("\nInsira um codigo diferente esse ja existe!");
+                                        }
+                                    }
+
+                                break;
+
+                                case 2:
+                                    // alterar o nome
+                                    Console.WriteLine("\nQual é o codigo do Colaborador que deseja alterar?");
+                                    Console.Write("Codigo do Colaborador: ");
+                                    int pCodigo = Convert.ToInt32(Console.ReadLine());
+
+                                    for (i = 0; i < pessoa.Length; i++) {
+
+                                        if (pCodigo == pessoa[i].getCodigo())
+                                        {
+                                            Console.Write("\nAlterar o Nome: ");
+                                            string altNome = Console.ReadLine();
+
+                                            pessoa[i].setNome(altNome);
+                                            Console.WriteLine("\nAlterado com sucesso!");
+                                        }
+                                    }
+                                break;
+
+                                case 3:
+                                    // alterar o Vencimento
+                                    Console.WriteLine("\nQual é o codigo do Colaborador que deseja alterar?");
+                                    Console.Write("Codigo do Colaborador: ");
+                                    double pVenc = Convert.ToDouble(Console.ReadLine());
+
+                                    for (i = 0; i < pessoa.Length; i++)
+                                    {
+                                        if (pVenc == pessoa[i].getCodigo()){ 
+
+                                            Console.Write("\nAlterar o Vencimento: ");
+                                            double altVenc = Convert.ToDouble(Console.ReadLine());
+
+                                            if (altVenc > 0)
+                                            {
+                                                pessoa[i].setVenc(altVenc);
+                                                Console.WriteLine("\nAlterado com sucesso!");
+
+                                            }else Console.WriteLine("\nO valor tem que ser maior que 0!");
+                                         }
+                                    }
+                                break;
+
+                                case 4:
+                                    // alterar o Plafond
+                                    Console.WriteLine("\nQual é o codigo do Colaborador que deseja alterar?");
+                                    Console.Write("Codigo do Colaborador: ");
+                                    double pPlafond = Convert.ToInt32(Console.ReadLine());
+
+                                    for (i = 0; i < pessoa.Length; i++)
+                                    {
+                                        if (pPlafond == pessoa[i].getCodigo())
+                                        {
+                                            Console.Write("\nAlterar o Plafond do Cartão de Alimentação: ");
+                                            double altPlafond = Convert.ToDouble(Console.ReadLine());
+
+                                            if (altPlafond > 0)
+                                            {
+                                                pessoa[i].plafondmensal();
+
+                                                pessoa[i].setVenc(altPlafond);
+                                                Console.WriteLine("\nAlterado com sucesso!");
+
+                                            }
+                                            else Console.WriteLine("\nO valor tem que ser maior que 0!");
+                                        }
+                                    }
+                                 break;
+
+                                case 5:
+                                    // altarar o Seguro de Saude
+                                    Console.WriteLine("\nQual é o codigo do Colaborador que deseja alterar?");
+                                    Console.Write("Codigo do Colaborador: ");
+                                    int pSeguro = Convert.ToInt32(Console.ReadLine());
+
+                                    for (i = 0; i < pessoa.Length; i++)
+                                    {
+                                        if (pSeguro == pessoa[i].getCodigo())
+                                        {
+                                            Console.Write("\nAlterar o Seguro de Saude: ");
+
+                                            Console.WriteLine("1. Com Seguro de Saude ");
+                                            Console.WriteLine("2. Sem Seguro de Saude ");
+
+                                            Console.Write("\nOpção: ");
+                                            int altSeguro = Convert.ToInt32(Console.ReadLine());
+
+                                            if (altSeguro > 0 && altSeguro < 3)
+                                            {
+                                                if (altSeguro == 1)
+                                                {
+                                                    pessoa[i].setSeguro("Colaborador C/ Seguro de Saude.");
+                                                    Console.WriteLine("\n Alterado com sucesso!");
+                                                }
+                                                else
+                                                {
+                                                    pessoa[i].setSeguro("Colaborador S/ Seguro de Saude.");
+                                                    Console.WriteLine("\n Alterado com sucesso!");
+                                                }
+                                            }
+                                            else Console.WriteLine("Escolha uma das opções mencionadas a cima! ");
+                                        }
+                                    }
+                                break;
+                            } 
+
+                        } while (opcao2 != 0);
+
                         break;
+
 
                     // 5. Eliminar colaborador
                     case 5:
