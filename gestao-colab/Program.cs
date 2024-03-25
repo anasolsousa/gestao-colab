@@ -125,7 +125,7 @@ namespace gestaoColab
 
 
                         // o plafondAlimColab - ja esta predefinido com 140 quando é criado uma pessoa
-                        Console.Write($"Plafond atribuido ao cartão de Alimentação do Colaborador: {pessoa[pessoa.Length - 1].getPlafond()} €");
+                        Console.Write($"Plafond atribuido ao cartão de Alimentação do Colaborador: {pessoa[pessoa.Length - 1].getPlafond()} € \n");
 
                         // seguro de saude
                         Console.WriteLine("\nVai ser atribuido um Seguro de Saúde ao colaborador?");
@@ -168,27 +168,24 @@ namespace gestaoColab
                     // 3. Consultar o registo de um colaborador
                     case 3:
 
-                        int indice = 0;
-                        int pCodigo = 0;
+                        Console.WriteLine("Consultar o registo de um colaborador");
 
-                        Console.WriteLine("\nConsultar o registo de um colaborador: \n");
+                        Console.WriteLine("Insira o codigo do Colaborador: ");
+                        int pesquisa = Convert.ToInt32(Console.Read());
 
-                        Console.WriteLine("Insira o Código do Colaborador: ");
-                        pCodigo = Convert.ToInt32(Console.ReadLine());
-                        do
+                        for (i = 0; i < pessoa.Length; i++)
                         {
-                            1if (pCodigo == pessoa[indice].getCodigo())
+                            if (pesquisa == pessoa[i].getCodigo())
                             {
-                                Console.WriteLine($"\nCodigo: {pessoa[indice].getCodigo()}" +
-                                                  $"\nNome: {pessoa[indice].getNome()}" +
-                                                  $"\nVencimento: {pessoa[indice].getVenc()} €" +
-                                                  $"\nPlafond: {pessoa[indice].getPlafond()} €" +
-                                                  $"\nSeguro: {pessoa[indice].getSeguro()}\n");
+                                Console.WriteLine($"\nCodigo: {pessoa[i].getCodigo()}" +
+                                             $"\nNome: {pessoa[i].getNome()}" +
+                                             $"\nVencimento: {pessoa[i].getVenc()} €" +
+                                             $"\nPlafond: {pessoa[i].getPlafond()} €" +
+                                             $"\nSeguro: {pessoa[i].getSeguro()}\n");
                             }
-                            indice++;
-                        } while (pCodigo < pessoa.Length);
-                     break;
-
+                        }
+                    break;
+                    
                     // 4. Alterar dados de colaboradores
                     case 4:
                         break;
