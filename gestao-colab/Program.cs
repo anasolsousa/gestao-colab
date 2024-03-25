@@ -3,15 +3,13 @@ using System.Text;
 using System.Text.Unicode;
 using System.IO;
 using System.Globalization;
-using System.Net;
-using System.Reflection.Metadata.Ecma335;
-using System.ComponentModel.Design;
 
 
 namespace gestaoColab
 {
 
-    class Program {
+    class Program
+    {
 
         // Ana Sousa anasosousa@gmail.com
         // Bianca Silva 
@@ -23,40 +21,40 @@ namespace gestaoColab
             string nomColab = "";
             double vencColab;
             double plafondAlimColab;
-            int segSaudeColab;
+            string segSaudeColab = "";
 
+          
             // get saida de dados, ou seja, getVariavel = vai conter os valores das variavies inicializadas em cima
             public int getCodigo() { return codColab; }
             public string getNome() { return nomColab; }
             public double getVenc() { return vencColab; }
-            public double getPlafond() { return plafondAlimColab; }
-            public int getSeguro() { return segSaudeColab; }
+            public double getPlafond() { return plafondmensal(); }
+            public string getSeguro() { return segSaudeColab; }
 
             // set entrada de dados, todos os dados guardado na variavel newVariavel vão ser "transferidos" de volta para a variavel inicializada em cima 
             public void setCodigo(int newCodigo) { codColab = newCodigo; }
             public void setNome(string newNome) { nomColab = newNome; }
             public void setVenc(double newVenc) { vencColab = newVenc; }
-            public void setPlafond(double newPlafond) { plafondAlimColab = newPlafond; }
-            public void setSeguro(int  newSeguro) { segSaudeColab = newSeguro; }
-
-
-            // construtores
-
-            // construtor padrão - para garantir que todos objetos sejam criados com valores padrão.
-            public Colaborador(double plafondAlimColab) 
+            public void setSeguro(string newSeguro) { segSaudeColab = newSeguro; }
+            
+            
+            // metodo para acrescentar automaticamente o valor do plafond mensal
+            public double plafondmensal()
             {
                 plafondAlimColab = 140;
+                return plafondAlimColab;
             }
+
+            // construtores
+            public Colaborador()
+            {
+            }
+
             // quando uma pessoa é criada estes dados são preenchidos por garantia
             public Colaborador(string newNome, int newCodigo)
             {
                 nomColab = newNome;
                 codColab = newCodigo;
-            }
-            // cada vez que é criado uma pessoa o plafom é de 140 euros
-            public Colaborador()
-            {
-                
             }
         }
 
@@ -66,9 +64,10 @@ namespace gestaoColab
         // * o plafom de alimentação todos os messes é carregado com 140 euros
 
         // menu para escolher a opção
-        public static int menu() {
+        public static int menu()
+        {
 
-            int opcao = 0;
+            int opcao1 = 0;
 
             Console.WriteLine("\nMenu com opções: \n");
             Console.WriteLine("1. Inserir colaborador");
@@ -89,7 +88,7 @@ namespace gestaoColab
 
             Console.Write("\nOpção: ");
             // retorna o valor que o utizador selecionou e  transformar a opcao em um numero inteiro 
-            return opcao = Convert.ToInt32(Console.ReadLine());
+            return opcao1 = Convert.ToInt32(Console.ReadLine());
         }
 
         static void Main(string[] args)
@@ -100,12 +99,16 @@ namespace gestaoColab
             int i;
 
             // ciclo para repetir as opcoes 
-            do{
+            do
+            {
                 op = menu();
+                int escolha;
+
                 switch (op)
                 {
                     // 1. Inserir colaborador
                     case 1:
+                      
                         Array.Resize(ref pessoa, pessoa.Length + 1); // redimenciona o array - mostra a possição 1 
                         pessoa[pessoa.Length - 1] = new Colaborador(); // array começa na posição 0 
 
@@ -118,92 +121,113 @@ namespace gestaoColab
                         pessoa[pessoa.Length - 1].setNome(Console.ReadLine());
 
                         Console.Write("Insira o Vencimento do Colaborador: ");
-                        pessoa[pessoa.Length -1].setVenc(Convert.ToDouble(Console.ReadLine()));
+                        pessoa[pessoa.Length - 1].setVenc(Convert.ToDouble(Console.ReadLine()));
+
 
                         // o plafondAlimColab - ja esta predefinido com 140 quando é criado uma pessoa
+                        Console.Write($"Plafond atribuido ao cartão de Alimentação do Colaborador: {pessoa[pessoa.Length - 1].getPlafond()} €");
 
+                        // seguro de saude
                         Console.WriteLine("\nVai ser atribuido um Seguro de Saúde ao colaborador?");
 
                         Console.WriteLine("1. Sim ");
                         Console.WriteLine("2. Não ");
 
                         Console.Write("\nOpção: ");
+                        escolha = Convert.ToInt32(Console.ReadLine());
 
-                        // nao funciona
-                        pessoa[pessoa.Length - 1].setSeguro(Convert.ToInt32(Console.ReadLine()));
-
-                        int resposta = 0;
-
-                        if(resposta == 1)
+                        if (escolha > 0 && escolha < 3)
+                        {
+                            if (escolha == 1)
                             {
-                             Console.WriteLine("Colaborador C/ Seguro de Saude");
-
-                            } else Console.WriteLine("Colaborador S/ Seguro de Saude");
+                                pessoa[pessoa.Length - 1].setSeguro("Colaborador C/ Seguro de Saude.");
+                                Console.WriteLine("Colaborador C/ Seguro de Saude.");
+                            }
+                            else
+                            {
+                                pessoa[pessoa.Length - 1].setSeguro("Colaborador S/ Seguro de Saude.");
+                                Console.WriteLine("Colaborador S/ Seguro de Saude.");
+                            }
+                        } else Console.WriteLine("Escolha uma das opções mencionadas a cima! ");
                         break;
                         
-                    // 2. Listagem de registos de colaboradores
+                    // 2. Listagem de registos de colaboradores {}
                     case 2:
                         Console.WriteLine("\nLista dos Colaboradores: \n");
 
-                        /*for (i = 0; i < pessoa.Length; i++)
+                        for (i = 0; i < pessoa.Length; i++)
                         {
-                            // corrigir o plafon e o true
-                            
-                            Console.WriteLine($"\nCódigo: {pessoa[i].getCodigo()} " + $"\nNome: {pessoa[i].getNome()} " + $"\nVencimento: {pessoa[i].getVenc()} € " + $"\nPlafond cartao de alimentação: {pessoa[i].getPlafond()} €");
-                            
-                            if (pessoa[i].getSeguro() == true)
-                            {
-                                Console.WriteLine("Colaborador C/ Seguro de Saude");
-                            }
-                            else Console.WriteLine("Colaborador S/ Seguro de Saude");
-
-                        }*/
-
-                    break;
+                            Console.WriteLine($"\nCodigo: {pessoa[i].getCodigo()}" +
+                                              $"\nNome: {pessoa[i].getNome()}" +
+                                              $"\nVencimento: {pessoa[i].getVenc()} €" +
+                                              $"\nPlafond: {pessoa[i].getPlafond()} €" +
+                                              $"\nSeguro: {pessoa[i].getSeguro()}\n");
+                        }
+                        break;
 
                     // 3. Consultar o registo de um colaborador
                     case 3:
-                    break;
+
+                        int indice = 0;
+                        int pCodigo = 0;
+
+                        Console.WriteLine("\nConsultar o registo de um colaborador: \n");
+
+                        Console.WriteLine("Insira o Código do Colaborador: ");
+                        pCodigo = Convert.ToInt32(Console.ReadLine());
+                        do
+                        {
+                            1if (pCodigo == pessoa[indice].getCodigo())
+                            {
+                                Console.WriteLine($"\nCodigo: {pessoa[indice].getCodigo()}" +
+                                                  $"\nNome: {pessoa[indice].getNome()}" +
+                                                  $"\nVencimento: {pessoa[indice].getVenc()} €" +
+                                                  $"\nPlafond: {pessoa[indice].getPlafond()} €" +
+                                                  $"\nSeguro: {pessoa[indice].getSeguro()}\n");
+                            }
+                            indice++;
+                        } while (pCodigo < pessoa.Length);
+                     break;
 
                     // 4. Alterar dados de colaboradores
                     case 4:
-                    break;
+                        break;
 
                     // 5. Eliminar colaborador
                     case 5:
-                    break;
+                        break;
 
                     // 6. Consultar o saldo do subsídio de Alimentação de um colaborador
                     case 6:
-                    break;
+                        break;
 
                     // 7. Usar o cartão para as refeições
                     case 7:
-                    break;
+                        break;
 
                     // 8. Carregar o plafond do subsídio de alimentão de um colaborador
                     case 8:
-                    break;
+                        break;
 
                     // 9. Carregar o plafond do subsídio de alimentão de todos os colaboradores"
                     case 9:
-                    break;
+                        break;
 
                     //10. Calcular a média dos vencimentos dos colaboradores
                     case 10:
-                    break;
+                        break;
 
                     // 11. O nome d@ colaborador@ com o melhor vencimento
                     case 11:
-                    break;
+                        break;
 
                     // 12. O nome d@ colaborador@ com o menor vencimento
                     case 12:
-                    break;
+                        break;
 
                     // 13.Listagem dos inscritos no Seguro de Saúde
                     case 13:
-                    break;
+                        break;
                 }
 
             } while (op != 0);
