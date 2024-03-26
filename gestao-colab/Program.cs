@@ -12,7 +12,7 @@ namespace gestaoColab
     {
 
         // Ana Sousa anasosousa@gmail.com
-        // Bianca Silva 
+        // Bianca Silva bianca12silva@outlook.com
 
         // Programa para Gestão de dados de Colaboradores
         class Colaborador
@@ -21,6 +21,7 @@ namespace gestaoColab
             string nomColab = "";
             double vencColab;
             double plafondAlimColab;
+            //TODO: mudar para boolean
             string segSaudeColab = "";
 
           
@@ -47,9 +48,10 @@ namespace gestaoColab
 
 
 
-            // construtores
+            // construtores para preencher de imediato o subsídio 140€
             public Colaborador()
             {
+                plafondAlimColab = 140; 
             }
 
             // quando uma pessoa é criada estes dados são preenchidos por garantia
@@ -69,7 +71,7 @@ namespace gestaoColab
         public static int menu()
         {
 
-            int opcao1 = 0;
+            // APAGAR --> int opcao1 = 0;
 
             Console.WriteLine("\nMenu com opções: \n");
             Console.WriteLine("1. Inserir colaborador");
@@ -90,10 +92,10 @@ namespace gestaoColab
 
             Console.Write("\nOpção: ");
             // retorna o valor que o utizador selecionou e  transformar a opcao em um numero inteiro 
-            return opcao1 = Convert.ToInt32(Console.ReadLine());
+            return Convert.ToInt32(Console.ReadLine());
         }
 
-        public static int menualt()
+        public static int menuAlt()
         {
 
             int opcao2 = 0;
@@ -113,6 +115,12 @@ namespace gestaoColab
 
         static void Main(string[] args)
         {
+            // definição de um array de n posições de estruturas de colaboradores
+            Console.Write("Inserir um número de colaboradores da empresa: ");
+            numColab = Convert.ToInt32(Console.ReadLine());
+
+            // def do array de numColab posições em memória
+            Colaborador[] colaboradores = new Colaborador[numColab];
             // classe colaborador - criar varios objetos chamdados "pessoa" = criar varios colaboradores
             Colaborador[] pessoa = new Colaborador[0];
             int op = 0;
@@ -130,20 +138,21 @@ namespace gestaoColab
                 {
                     // 1. Inserir colaborador
                     case 1:
+                        Colaborador colaborador = new Colaborador();
 
                         Array.Resize(ref pessoa, pessoa.Length + 1); // redimenciona o array - mostra a possição 1 
-                        pessoa[pessoa.Length - 1] = new Colaborador(); // array começa na posição 0 
+                        pessoa[pessoa.Length - 1] = colaborador; // array começa na posição 0 
 
                         Console.WriteLine("\nInserir novo Colaborador: \n");
 
                         Console.Write("Insira o numero do Colaborador: ");
-                        pessoa[pessoa.Length - 1].setCodigo(Convert.ToInt32(Console.ReadLine())); // O array criado com o parametro codigo
+                        colaborador.setCodigo(Convert.ToInt32(Console.ReadLine())); // O array criado com o parametro codigo
 
                         Console.Write("Insira o nome do Colaborador: ");
-                        pessoa[pessoa.Length - 1].setNome(Console.ReadLine());
+                       colaborador.setNome(Console.ReadLine());
 
                         Console.Write("Insira o Vencimento do Colaborador: ");
-                        pessoa[pessoa.Length - 1].setVenc(Convert.ToDouble(Console.ReadLine()));
+                        colaborador.setVenc(Convert.ToDouble(Console.ReadLine()));
 
 
                         // o plafondAlimColab - ja esta predefinido com 140 quando é criado uma pessoa
@@ -162,15 +171,16 @@ namespace gestaoColab
                         {
                             if (escolha == 1)
                             {
-                                pessoa[pessoa.Length - 1].setSeguro("Colaborador C/ Seguro de Saude.");
+                                colaborador.setSeguro("Colaborador C/ Seguro de Saude.");
                                 Console.WriteLine("Colaborador C/ Seguro de Saude.");
                             }
                             else
                             {
-                                pessoa[pessoa.Length - 1].setSeguro("Colaborador S/ Seguro de Saude.");
+                                colaborador.setSeguro("Colaborador S/ Seguro de Saude.");
                                 Console.WriteLine("Colaborador S/ Seguro de Saude.");
                             }
                         } else Console.WriteLine("Escolha uma das opções mencionadas a cima! ");
+                        pessoa[pessoa.Length - 1] = colaborador;
                         break;
 
                     // 2. Listagem de registos de colaboradores {}
