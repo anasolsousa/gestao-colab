@@ -12,13 +12,13 @@ namespace gestaoColab
     {
 
         // Ana Sousa anasosousa@gmail.com
-        // Bianca Silva 
+        // Bianca Silva bianca12silva@outlook.com
 
         // Programa para Gestão de dados de Colaboradores
 
         // COISAS A FAZER
         // * quando abrir o programa ele vai buscar os dados - fazer com um metodo (fazer no fim de tudo)
-        // * quando fechar o programa tem que emnviar os dados (fazer no fim de tudo)
+        // * quando fechar o programa tem que enviar os dados (fazer no fim de tudo)
         // * o plafom de alimentação todos os messes é carregado com 140 euros (feito)
 
         class Colaborador
@@ -51,18 +51,13 @@ namespace gestaoColab
                 plafondAlimColab = 140;
             }
 
-            // quando uma pessoa é criada estes dados são preenchidos por garantia
-            public Colaborador(string newNome, int newCodigo)
-            {
-                nomColab = newNome;
-                codColab = newCodigo;
-            }
+            
         }
 
         // menu para escolher a opção
         public static int menu()
         {
-
+          
             int opcao1 = 0;
 
             Console.WriteLine("\nMenu com opções: \n");
@@ -107,7 +102,7 @@ namespace gestaoColab
 
         static void Main(string[] args)
         {
-            // classe colaborador - criar varios objetos chamdados "pessoa" = criar varios colaboradores
+            // classe colaborador - criar varios objetos chamados "pessoa" = criar varios colaboradores
             Colaborador[] pessoa = new Colaborador[0];
             int op = 0;
             int i;
@@ -204,11 +199,14 @@ namespace gestaoColab
                                              $"\nSeguro de Saúde: {pessoa[i].getSeguro()}\n");
                                 break;
                             }
-                            else
-                            {
-                                Console.WriteLine("Colaborador não encontrado. Verifique o código e tente novamente.");
-                            }         
+                                     
                         }
+                        if (i == pessoa.Length)
+                        {
+                            Console.WriteLine("Colaborador não encontrado. Verifique o código e tente novamente.");
+                        }
+                        
+
                     break;
 
                     // 4. Alterar dados de colaboradores
@@ -380,22 +378,31 @@ namespace gestaoColab
                         Console.Write("Código do Colaborador: ");
                         int removerColab = Convert.ToInt32(Console.ReadLine());
 
-                        for(i = 0; i< pessoa.Length;i++)
+                        for(i = 0; i < pessoa.Length; i++)
+                        {
+
+                        
                         
                             if (removerColab == pessoa[i].getCodigo())
                             {
 
-                                for (int j = 1; j < pessoa.Length-1; j++) 
+                                for (int j = i; j < pessoa.Length-1; j++)
+                                {
                                     pessoa[j] = pessoa[j + 1];
-                                    Array.Resize(ref pessoa, pessoa.Length - 1);
-                                    Console.Write("\nColaborador removido com sucesso!");
+                                }
+                                Array.Resize(ref pessoa, pessoa.Length - 1);
+                                Console.Write("\nColaborador removido com sucesso!");
                             }
                             else
                             {
                               Console.WriteLine("\nOperação inválida. O colaborador não foi encontrado ou a ação não pôde ser concluída.");
                             }
-
-                    break;
+                        }
+                        if (i == pessoa.Length)
+                        {
+                            Console.WriteLine("\nOperação inválida. O colaborador não foi encontrado ou a ação não pôde ser concluída.");
+                        }
+                        break;
 
                     // 6. Consultar o saldo do subsídio de Alimentação de um colaborador 
                     case 6:
@@ -411,6 +418,7 @@ namespace gestaoColab
                             if(pesquisarCodigo == pessoa[i].getCodigo()) {
 
                                 Console.WriteLine($"\nNome: {pessoa[i].getNome()}" + $"\nPlafond: {pessoa[i].getPlafond()} €");
+                                break;
                             }
                         }
                         break;
@@ -449,7 +457,7 @@ namespace gestaoColab
                                     plafondAtual -= valorRefeicao;
 
                                     pessoa[i].setPlafond(plafondAtual);
-                                    Console.WriteLine($"Valor atual do Cartão de almentação: {pessoa[i].getPlafond()}");
+                                    Console.WriteLine($"Valor atual do Cartão de alimentação: {pessoa[i].getPlafond()}");
                                 } 
                                 else 
                                 {
@@ -461,13 +469,38 @@ namespace gestaoColab
 
                     // 8. Carregar o plafond do subsídio de alimentão de um colaborador
                     case 8:
+                       
+                        // qual é o colaborador
+                        Console.WriteLine("\nQual é o Colaborador que deseja carregar o Plafond do subsídio de Alimentação ?");
+                        Console.Write("Código do Colaborador: ");
+                        pesquisarCodigo = Convert.ToInt32(Console.ReadLine());
 
+                        for (i = 0; i < pessoa.Length; i++)
+                        {
 
-                    break;
+                            if (pesquisarCodigo == pessoa[i].getCodigo())
+                            {
+                           
+                                double plafondAtual = pessoa[i].getPlafond();
+
+                                plafondAtual += 140;
+
+                                pessoa[i].setPlafond(plafondAtual);
+                                Console.WriteLine($"Valor atual do Cartão de alimentação: {pessoa[i].getPlafond()}");
+                                break;
+                            }
+                        }
+                        break;
 
                     // 9. Carregar o plafond do subsídio de alimentão de todos os colaboradores"
                     case 9:
-                        break;
+                        for (i = 0; i < pessoa.Length; i++)
+                        {
+                            pessoa[i].setPlafond(pessoa[i].getPlafond() + 140);
+                        }
+                            Console.WriteLine("\n O Plafond de alimentação foi carregado para todos os colcaboradores!");
+                   
+                     break;
 
                     //10. Calcular a média dos vencimentos dos colaboradores
                     case 10:
