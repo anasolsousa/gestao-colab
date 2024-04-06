@@ -483,7 +483,7 @@ namespace gestaoColab
                     case 8:
                        
                         // qual é o colaborador
-                        Console.WriteLine("\nQual é o Colaborador que deseja carregar o Plafond do subsídio de Alimentação ?");
+                        Console.WriteLine("\nQual é o Colaborador que deseja carregar o Plafond do subsídio de Alimentação?");
                         Console.Write("Código do Colaborador: ");
                         pesquisarCodigo = Convert.ToInt32(Console.ReadLine());
 
@@ -498,7 +498,7 @@ namespace gestaoColab
                                 plafondAtual += 140;
 
                                 pessoa[i].setPlafond(plafondAtual);
-                                Console.WriteLine($"Valor atual do Cartão de alimentação: {pessoa[i].getPlafond()}");
+                                Console.WriteLine($"Valor atual do Cartão de alimentação: {pessoa[i].getPlafond()}€");
                                 break;
                             }
                         }
@@ -510,7 +510,7 @@ namespace gestaoColab
                         {
                             pessoa[i].setPlafond(pessoa[i].getPlafond() + 140);
                         }
-                            Console.WriteLine("\n O Plafond de alimentação foi carregado para todos os colcaboradores!");
+                            Console.WriteLine("\n O Plafond de alimentação foi carregado em todos os colcaboradores!");
                    
                      break;
 
@@ -526,7 +526,7 @@ namespace gestaoColab
                             
                         media = Math.Round(soma / pessoa.Length, 1);
 
-                        Console.WriteLine($"\nA média de vencimento é igual a:{media} ");
+                        Console.WriteLine($"\nA média de vencimento é igual a:{media} €");
 
                         break;
 
@@ -547,7 +547,7 @@ namespace gestaoColab
                         }
                         else 
                         { 
-                            Console.WriteLine("\nNão existe colaborador registrado.");
+                            Console.WriteLine("\nOperação inválida. O colaborador não foi encontrado.");
                         }
                      
                         break;
@@ -569,7 +569,7 @@ namespace gestaoColab
                         }
                         else
                         {
-                            Console.WriteLine("\nNão existe colaborador registrado.");
+                            Console.WriteLine("\nOperação inválida. O colaborador não foi encontrado.");
                         }
 
                         break;
