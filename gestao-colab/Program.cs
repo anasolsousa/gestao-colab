@@ -20,11 +20,16 @@ namespace gestaoColab
         // * quando abrir o programa ele vai buscar os dados - fazer com um metodo (fazer no fim de tudo)
         // * quando fechar o programa tem que enviar os dados (fazer no fim de tudo)
         // * o plafom de alimentação todos os messes é carregado com 140 euros (feito)
-        static void CarregarDados(Colaborador[] pessoa)
-        {
-            // Para ir buscar os dados dos caloboradores
 
-            // Verificar se o documento existe
+        // Para ir buscar os dados dos caloboradores
+
+        static void CarregarDados(ref Colaborador[] pessoa)
+        {
+            if (pessoa.Length == 0)
+            {
+                pessoa = new Colaborador[200];
+            }
+
             if (File.Exists("dadosColab.txt"))
             {
                 try
@@ -35,7 +40,7 @@ namespace gestaoColab
                         int index = 0;
                         while ((line = dados.ReadLine()) != null)
                         {
-                            string[] dadosColab = line.Split(';'); // dados estao separados por ponto e vírgula
+                            string[] dadosColab = line.Split(';');
                             pessoa[index] = new Colaborador();
                             pessoa[index].setCodigo(int.Parse(dadosColab[0]));
                             pessoa[index].setNome(dadosColab[1]);
@@ -57,6 +62,7 @@ namespace gestaoColab
                 Console.WriteLine("Nenhum dado anterior encontrado.");
             }
         }
+
 
         // para guardar os dados dos colaboradores 
         static void SalvarDados(Colaborador[] pessoa)
@@ -129,8 +135,8 @@ namespace gestaoColab
         // menu para escolher a opção
         public static int menu()
         {
-          
-            int opcao1 = 0;
+
+            int opcao1;
 
             Console.WriteLine("\nMenu com opções: \n");
             Console.WriteLine("1. Inserir colaborador");
@@ -151,7 +157,9 @@ namespace gestaoColab
 
             Console.Write("\nOpção: ");
             // retorna o valor que o utizador selecionou e  transformar a opcao em um numero inteiro 
-            return opcao1 = Convert.ToInt32(Console.ReadLine());
+            opcao1 = Convert.ToInt32(Console.ReadLine());
+
+            return opcao1;
         }
 
         public static int menualt()
@@ -178,12 +186,11 @@ namespace gestaoColab
             Colaborador[] pessoa = new Colaborador[0];
             int op = 0;
             int i;
-            int alterar;
             int opcao2= 0;
             int pesquisarCodigo = 0;
 
             // Carregar dados ao entrar no programa
-            CarregarDados(pessoa);
+            CarregarDados(ref pessoa);
 
             // ciclo para repetir as opcoes 
             do
