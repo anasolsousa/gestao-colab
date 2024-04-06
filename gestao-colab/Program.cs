@@ -22,12 +22,12 @@ namespace gestaoColab
         // * o plafom de alimentação todos os messes é carregado com 140 euros (feito)
 
         class Colaborador
-        {
-            int codColab;
-            string nomColab = "";
-            double vencColab;
-            double plafondAlimColab; 
-            string segSaudeColab = "";
+        { 
+            private int codColab;
+            private string nomColab = "";
+            private double vencColab;
+            private double plafondAlimColab; 
+            private bool segSaudeColab = false;
 
           
             // get saida de dados, ou seja, getVariavel = vai conter os valores das variavies inicializadas em cima
@@ -35,20 +35,32 @@ namespace gestaoColab
             public string getNome() { return nomColab; }
             public double getVenc() { return vencColab; }
             public double getPlafond() { return plafondAlimColab; }
-            public string getSeguro() { return segSaudeColab; }
+            public bool getSeguro() { return segSaudeColab; }
 
             // set entrada de dados, todos os dados guardado na variavel newVariavel vão ser "transferidos" de volta para a variavel inicializada em cima 
             public void setCodigo(int newCodigo) { codColab = newCodigo; }
             public void setNome(string newNome) { nomColab = newNome; }
             public void setVenc(double newVenc) { vencColab = newVenc; }
             public void setPlafond(double newPlafond) { plafondAlimColab = newPlafond; } 
-            public void setSeguro(string newSeguro) { segSaudeColab = newSeguro; }
+            public void setSeguro(bool newSeguro) { segSaudeColab = newSeguro; }
             
       
             // construtores
             public Colaborador()
             {
                 plafondAlimColab = 140;
+            }
+
+            public string getDescricaoSeguro()
+            {
+                if (segSaudeColab)
+                {
+                    return "Colaborador C/ Seguro de Saude.";
+                }
+                else
+                {
+                    return "Colaborador S/ Seguro de Saude.";
+                }
             }
 
             
@@ -88,11 +100,11 @@ namespace gestaoColab
             int opcao2 = 0;
 
             Console.WriteLine("\nMenu com opções: \n");
-            Console.WriteLine("1. Altrar o Código do colaborador");
-            Console.WriteLine("2. Altrar o Nome do colaborador");
-            Console.WriteLine("3. Altrar o Vencimento do colaborador");
-            Console.WriteLine("4. Altrar o Plafond do Cartão de Alimentação do colaborador");
-            Console.WriteLine("5. Altrar o Seguro de Saúde do colaborador");
+            Console.WriteLine("1. Alterar o Código do colaborador");
+            Console.WriteLine("2. Alterar o Nome do colaborador");
+            Console.WriteLine("3. Alterar o Vencimento do colaborador");
+            Console.WriteLine("4. Alterar o Plafond do Cartão de Alimentação do colaborador");
+            Console.WriteLine("5. Alterar o Seguro de Saúde do colaborador");
             
             Console.WriteLine("0. Sair");
 
@@ -151,13 +163,13 @@ namespace gestaoColab
 
                         if (escolha == 1)
                             {
-                                pessoa[pessoa.Length - 1].setSeguro("Colaborador C/ Seguro de Saude.");
+                                pessoa[pessoa.Length - 1].setSeguro(true);
                                 Console.WriteLine("Seguro de Saúde atribuído com sucesso ao colaborador.");
                             }
 
                         else if(escolha == 2)
                             {
-                                pessoa[pessoa.Length - 1].setSeguro("Colaborador S/ Seguro de Saude.");
+                                
                                 Console.WriteLine("Colaborador não terá Seguro de Saúde.");
                             }
 
@@ -175,7 +187,7 @@ namespace gestaoColab
                                               $"\nNome: {pessoa[i].getNome()}" +
                                               $"\nVencimento: {pessoa[i].getVenc()} €" +
                                               $"\nPlafond: {pessoa[i].getPlafond()} €" +
-                                              $"\nSeguro de Saúde: {pessoa[i].getSeguro()}\n");
+                                              $"\nSeguro de Saúde: {pessoa[i].getDescricaoSeguro()}\n");
                         }
                         break;
 
@@ -196,7 +208,7 @@ namespace gestaoColab
                                              $"\nNome: {pessoa[i].getNome()}" +
                                              $"\nVencimento: {pessoa[i].getVenc()} €" +
                                              $"\nPlafond: {pessoa[i].getPlafond()} €" +
-                                             $"\nSeguro de Saúde: {pessoa[i].getSeguro()}\n");
+                                             $"\nSeguro de Saúde: {pessoa[i].getDescricaoSeguro()}\n");
                                 break;
                             }
                                      
@@ -350,12 +362,12 @@ namespace gestaoColab
 
                                             if (altSeguro == 1)
                                                 {
-                                                    pessoa[i].setSeguro("Colaborador C/ Seguro de Saúde.");
+                                                    pessoa[i].setSeguro(true);
                                                     Console.WriteLine("\nSeguro de Saúde alterado com sucesso! Seguro ativado.");
                                                 }
                                             else if (altSeguro == 2)
                                                 {
-                                                    pessoa[i].setSeguro("Colaborador S/ Seguro de Saúde.");
+                                                    pessoa[i].setSeguro(false);
                                                     Console.WriteLine("\nSeguro de Saúde alterado com sucesso! Seguro desativado.");
                                                 }
                                             else Console.WriteLine("Opção inválida. Escolha uma das opções mencionadas acima!");
@@ -504,18 +516,77 @@ namespace gestaoColab
 
                     //10. Calcular a média dos vencimentos dos colaboradores
                     case 10:
+                        double soma = 0, media = 0;
+
+                     
+                        for (i = 0; i < pessoa.Length; i++)
+                        {
+                            soma += pessoa[i].getVenc();
+                        }
+                            
+                        media = Math.Round(soma / pessoa.Length, 1);
+
+                        Console.WriteLine($"\nA média de vencimento é igual a:{media} ");
+
                         break;
 
                     // 11. O nome d@ colaborador@ com o melhor vencimento
                     case 11:
+                        Colaborador melhorVencColab = null;
+                        if(pessoa.Length > 0)
+                        {
+                            melhorVencColab = pessoa[0];
+                            for (i = 1; i < pessoa.Length; i++)
+                            {
+                                if (pessoa[i].getVenc() > melhorVencColab.getVenc())
+                                {
+                                    melhorVencColab = pessoa[i];
+                                }
+                            }
+                            Console.WriteLine($"\nO nome d@ colaborador@ com o melhor vencimento é: {melhorVencColab.getNome()}");
+                        }
+                        else 
+                        { 
+                            Console.WriteLine("\nNão existe colaborador registrado.");
+                        }
+                     
                         break;
 
                     // 12. O nome d@ colaborador@ com o menor vencimento
                     case 12:
+                        Colaborador menorVencColab = null;
+                        if (pessoa.Length > 0)
+                        {
+                            menorVencColab = pessoa[0];
+                            for (i = 1; i < pessoa.Length; i++)
+                            {
+                                if (pessoa[i].getVenc() < menorVencColab.getVenc())
+                                {
+                                    menorVencColab = pessoa[i];
+                                }
+                            }
+                            Console.WriteLine($"\nO nome d@ colaborador@ com o menor vencimento é: {menorVencColab.getNome()}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nNão existe colaborador registrado.");
+                        }
+
                         break;
 
                     // 13.Listagem dos inscritos no Seguro de Saúde
                     case 13:
+                        Console.WriteLine("\nListagem dos inscritos no Seguro Saúde:\n ");
+                       
+                        for (i = 0; i < pessoa.Length; i++)
+                        {
+                            if (pessoa[i].getSeguro())
+                            {
+                                Console.WriteLine($"{pessoa[i].getNome()}");
+                            }
+                        }
+
+
                         break;
                 }
 
