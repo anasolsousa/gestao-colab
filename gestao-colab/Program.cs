@@ -20,6 +20,66 @@ namespace gestaoColab
         // * quando abrir o programa ele vai buscar os dados - fazer com um metodo (fazer no fim de tudo)
         // * quando fechar o programa tem que enviar os dados (fazer no fim de tudo)
         // * o plafom de alimentação todos os messes é carregado com 140 euros (feito)
+        static void CarregarDados(Colaborador[] pessoa)
+        {
+            // Para ir buscar os dados dos caloboradores
+
+            // Verificar se o documento existe
+            if (File.Exists("dadosColab.txt"))
+            {
+                try
+                {
+                    using (StreamReader dados = new StreamReader("dadosColab.txt"))
+                    {
+                        string line;
+                        int index = 0;
+                        while ((line = dados.ReadLine()) != null)
+                        {
+                            string[] dadosColab = line.Split(';'); // dados estao separados por ponto e vírgula
+                            pessoa[index] = new Colaborador();
+                            pessoa[index].setCodigo(int.Parse(dadosColab[0]));
+                            pessoa[index].setNome(dadosColab[1]);
+                            pessoa[index].setVenc(double.Parse(dadosColab[2]));
+                            pessoa[index].setPlafond(double.Parse(dadosColab[3]));
+                            pessoa[index].setSeguro(bool.Parse(dadosColab[4]));
+                            index++;
+                        }
+                    }
+                    Console.WriteLine("Dados carregados com sucesso!");
+                }
+                catch (Exception erro)
+                {
+                    Console.WriteLine($"Erro ao ler o arquivo: {erro.Message}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Nenhum dado anterior encontrado.");
+            }
+        }
+
+        // para guardar os dados dos colaboradores 
+        static void SalvarDados(Colaborador[] pessoa)
+        {
+            try
+            {
+                using (StreamWriter novosDados = new StreamWriter("dadosColab.txt"))
+                {
+                    foreach (Colaborador colab in pessoa)
+                    {
+                        if (colab != null)
+                        {
+                            novosDados.WriteLine($"{colab.getCodigo()};{colab.getNome()};{colab.getVenc()};{colab.getPlafond()};{colab.getSeguro()}");
+                        }
+                    }
+                }
+                Console.WriteLine("Dados salvos com sucesso!");
+            }
+            catch (Exception erro)
+            {
+                Console.WriteLine($"Erro ao salvar os dados: {erro.Message}");
+            }
+        }
 
         class Colaborador
         { 
@@ -121,6 +181,9 @@ namespace gestaoColab
             int alterar;
             int opcao2= 0;
             int pesquisarCodigo = 0;
+
+            // Carregar dados ao entrar no programa
+            CarregarDados(pessoa);
 
             // ciclo para repetir as opcoes 
             do
@@ -591,6 +654,9 @@ namespace gestaoColab
                 }
 
             } while (op != 0);
+
+            // Salvar dados ao sair do programa
+            SalvarDados(pessoa);
         }
     }
 }
