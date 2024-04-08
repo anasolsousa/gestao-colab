@@ -3,13 +3,15 @@ using System.Text;
 using System.Text.Unicode;
 using System.IO;
 using System.Globalization;
+using CsvHelper.Configuration;
+using CsvHelper;
 
 namespace gestaoColab
 {
 
     class Program
     {
-
+        static String filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"dadosColab.csv");
         // Ana Sousa anasosousa@gmail.com
         // Bianca Silva bianca12silva@outlook.com
 
@@ -24,25 +26,70 @@ namespace gestaoColab
 
         static void CarregarDados(ref Colaborador[] pessoa)
         {
-            String filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"dadosColab.csv");
-            if (pessoa.Length == 0)
-            {
-                pessoa = new Colaborador[200];
-            }
             
             if (!File.Exists(filePath))
             {
                 FileStream fs = File.Create(filePath);
                 fs.Close();
             }
-         
+
+            StreamReader streamReader = new StreamReader(filePath);
+            CsvConfiguration csvConfig = new CsvConfiguration(CultureInfo.CurrentCulture)
+            {
+                Delimiter = ";"
+            };
+
+            CsvReader csvReader = new CsvReader(streamReader, csvConfig);
+
+            int i = 0;
+            while (csvReader.Read())
+            {
+                if (i > 0)
+                {
+                    Array.Resize(ref pessoa, pessoa.Length + 1);
+                    Colaborador colaborador = new Colaborador();
+                    colaborador.setCodigo(Convert.ToInt32(csvReader.GetField(0)));
+                    colaborador.setNome(csvReader.GetField(1));
+                    colaborador.setVenc(Convert.ToDouble(csvReader.GetField(2)));
+                    colaborador.setPlafond(Convert.ToDouble(csvReader.GetField(3)));
+                    colaborador.setSeguro(Convert.ToBoolean(csvReader.GetField(4)));
+                    pessoa[i-1] = colaborador;
+                }
+                i++;
+            }
+            streamReader.Close();
         }
 
 
         // para guardar os dados dos colaboradores 
         static void SalvarDados(Colaborador[] pessoa)
         {
-            
+            Console.OutputEncoding = Encoding.UTF8;
+            StreamWriter streamWriter = new (filePath);
+
+            CsvHelper.Configuration.CsvConfiguration csvConfig = new CsvConfiguration(CultureInfo.CurrentCulture)
+            {
+                Delimiter = ";"
+            };
+
+            CsvWriter csvWriter = new CsvWriter(streamWriter, csvConfig);
+
+            csvWriter.WriteField("Codigo");
+            csvWriter.WriteField("Nome");
+            csvWriter.WriteField("Vencimento");
+            csvWriter.WriteField("Plafond de alimentacao");
+            csvWriter.WriteField("Seguro de saude");
+            csvWriter.NextRecord();
+            for (int i = 0; i < pessoa.Length; i++)
+            {
+                csvWriter.WriteField(Convert.ToString(pessoa[i].getCodigo()));
+                csvWriter.WriteField(pessoa[i].getNome());
+                csvWriter.WriteField(Convert.ToString(pessoa[i].getVenc()));
+                csvWriter.WriteField(Convert.ToString(pessoa[i].getPlafond()));
+                csvWriter.WriteField(Convert.ToString(pessoa[i].getSeguro()));
+                csvWriter.NextRecord();
+            }
+            streamWriter.Close();
         }
 
         class Colaborador
