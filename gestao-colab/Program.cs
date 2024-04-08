@@ -4,7 +4,6 @@ using System.Text.Unicode;
 using System.IO;
 using System.Globalization;
 
-
 namespace gestaoColab
 {
 
@@ -25,66 +24,25 @@ namespace gestaoColab
 
         static void CarregarDados(ref Colaborador[] pessoa)
         {
+            String filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"dadosColab.csv");
             if (pessoa.Length == 0)
             {
                 pessoa = new Colaborador[200];
             }
-
-            if (File.Exists("dadosColab.txt"))
+            
+            if (!File.Exists(filePath))
             {
-                try
-                {
-                    using (StreamReader dados = new StreamReader("dadosColab.txt"))
-                    {
-                        string line;
-                        int index = 0;
-                        while ((line = dados.ReadLine()) != null)
-                        {
-                            string[] dadosColab = line.Split(';');
-                            pessoa[index] = new Colaborador();
-                            pessoa[index].setCodigo(int.Parse(dadosColab[0]));
-                            pessoa[index].setNome(dadosColab[1]);
-                            pessoa[index].setVenc(double.Parse(dadosColab[2]));
-                            pessoa[index].setPlafond(double.Parse(dadosColab[3]));
-                            pessoa[index].setSeguro(bool.Parse(dadosColab[4]));
-                            index++;
-                        }
-                    }
-                    Console.WriteLine("Dados carregados com sucesso!");
-                }
-                catch (Exception erro)
-                {
-                    Console.WriteLine($"Erro ao ler o arquivo: {erro.Message}");
-                }
+                FileStream fs = File.Create(filePath);
+                fs.Close();
             }
-            else
-            {
-                Console.WriteLine("Nenhum dado anterior encontrado.");
-            }
+         
         }
 
 
         // para guardar os dados dos colaboradores 
         static void SalvarDados(Colaborador[] pessoa)
         {
-            try
-            {
-                using (StreamWriter novosDados = new StreamWriter("dadosColab.txt"))
-                {
-                    foreach (Colaborador colab in pessoa)
-                    {
-                        if (colab != null)
-                        {
-                            novosDados.WriteLine($"{colab.getCodigo()};{colab.getNome()};{colab.getVenc()};{colab.getPlafond()};{colab.getSeguro()}");
-                        }
-                    }
-                }
-                Console.WriteLine("Dados salvos com sucesso!");
-            }
-            catch (Exception erro)
-            {
-                Console.WriteLine($"Erro ao salvar os dados: {erro.Message}");
-            }
+            
         }
 
         class Colaborador
@@ -104,11 +62,11 @@ namespace gestaoColab
             public bool getSeguro() { return segSaudeColab; }
 
             // set entrada de dados, todos os dados guardado na variavel newVariavel vão ser "transferidos" de volta para a variavel inicializada em cima 
-            public void setCodigo(int newCodigo) { codColab = newCodigo; }
-            public void setNome(string newNome) { nomColab = newNome; }
-            public void setVenc(double newVenc) { vencColab = newVenc; }
-            public void setPlafond(double newPlafond) { plafondAlimColab = newPlafond; } 
-            public void setSeguro(bool newSeguro) { segSaudeColab = newSeguro; }
+            public void setCodigo(int codColab) { this.codColab = codColab; }
+            public void setNome(string nomColab) { this.nomColab = nomColab; }
+            public void setVenc(double vencColab) { this.vencColab = vencColab; }
+            public void setPlafond(double plafondAlimColab) { this.plafondAlimColab = plafondAlimColab; } 
+            public void setSeguro(bool segSaudeColab) { this.segSaudeColab = segSaudeColab; }
             
       
             // construtores
