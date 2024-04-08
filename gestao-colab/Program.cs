@@ -17,14 +17,11 @@ namespace gestaoColab
 
         // Programa para Gestão de dados de Colaboradores
 
-        // COISAS A FAZER
-        // * quando abrir o programa ele vai buscar os dados - fazer com um metodo (fazer no fim de tudo)
-        // * quando fechar o programa tem que enviar os dados (fazer no fim de tudo)
-        // * o plafom de alimentação todos os messes é carregado com 140 euros (feito)
+       
 
         // Para ir buscar os dados dos caloboradores
 
-        static void CarregarDados(ref Colaborador[] pessoa)
+        static private void CarregarDados(ref Colaborador[] pessoa)
         {
             
             if (!File.Exists(filePath))
@@ -62,7 +59,7 @@ namespace gestaoColab
 
 
         // para guardar os dados dos colaboradores 
-        static void SalvarDados(Colaborador[] pessoa)
+        static private void SalvarDados(Colaborador[] pessoa)
         {
             Console.OutputEncoding = Encoding.UTF8;
             StreamWriter streamWriter = new (filePath);
@@ -260,8 +257,8 @@ namespace gestaoColab
                         {
                             Console.WriteLine($"\nCódigo: {pessoa[i].getCodigo()}" +
                                               $"\nNome: {pessoa[i].getNome()}" +
-                                              $"\nVencimento: {pessoa[i].getVenc()} €" +
-                                              $"\nPlafond: {pessoa[i].getPlafond()} €" +
+                                              $"\nVencimento: {pessoa[i].getVenc()} euros " +
+                                              $"\nPlafond: {pessoa[i].getPlafond()} euros " +
                                               $"\nSeguro de Saúde: {pessoa[i].getDescricaoSeguro()}\n");
                         }
                         break;
